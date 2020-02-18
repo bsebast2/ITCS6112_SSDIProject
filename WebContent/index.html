@@ -1,0 +1,26 @@
+<html>
+
+<head>
+	<title>Angular JS Demo</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+	   <script src="js/angulardemo.js"></script>
+</head>
+
+<body>
+	    <html ng-app="demoApp">
+			
+   <div ng-controller="demoCtrl">
+        <table border="1">
+            <tr>
+                <td>Book Name</td>
+                <td ng-bind="book"></td>
+            </tr>
+            <tr>
+                <td>Author</td>
+                <td ng-bind="author"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>
