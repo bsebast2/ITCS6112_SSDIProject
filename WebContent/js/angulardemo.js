@@ -1,13 +1,11 @@
 
-    var app = angular.module("employeeApp", []);
-    app.controller("employeeController", function($scope,$http) {
-        $http({
-            url: "spike2/FetchDataServlet",
-            method:"GET"
-        }).then(function(response){
-            console.log(response);
+class Hello extends React.Component {  
+    render() {  
+        return <h1>Hello world!</h1>;  
+    }  
+}
 
-        }, function(response){
-            console.log(response);
-        });
-    });
+ReactDOM.render(  
+    <Hello />,   
+    document.getElementById("root")  
+);
