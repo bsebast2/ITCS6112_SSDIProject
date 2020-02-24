@@ -16,22 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-
+import com.employee.Model.FetchEmployeeModel;
 /**
  * Servlet implementation class FetchDataServlet
  */
 @WebServlet("/FetchDataServlet")
 public class FetchDataServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public FetchDataServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -39,7 +29,8 @@ public class FetchDataServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		try {
-			ArrayList<String> list = new ArrayList<>();
+			
+			ArrayList<FetchEmployeeModel> list = new ArrayList<>();
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/employees", "root", "root");
 			Statement stmt = con.createStatement();
@@ -51,26 +42,20 @@ public class FetchDataServlet extends HttpServlet {
 			response.setContentType("application/json");
 			
 			while(rs.next()) {
-				int id = rs.getInt("id");
-				String fname = rs.getString("first_name");
-				String lname = rs.getString("last_name");
-				String email = rs.getString("email_address");
+				FetchEmployeeModel fetch = new FetchEmployeeModel();
+				fetch.setId(rs.getInt("id"));
+				fetch.setFrist_name(rs.getString("first_name"));
+				fetch.setLast_name(rs.getString("last_name"));
+				fetch.setEmail_address(rs.getString("email_address"));			
 				
-				
-				list.add(Integer.toString(id));
-				list.add(fname);
-				list.add(lname);
-				list.add(email);
-			}
+				list.add(fetch);
+				}
 			
-			Gson gson = new Gson();
+			request.setAttribute("list", list);
 			
-			if(list.size()>0) {
-				String jsondata = gson.toJson(list);
-				out.print(jsondata);
-				
-			}
-			out.close();
+			//System.out.println(list);
+			
+			request.getRequestDispatcher("ShowEmployee.jsp").forward(request, response);
 			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -81,12 +66,5 @@ public class FetchDataServlet extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
 
 }
